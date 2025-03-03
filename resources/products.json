@@ -1,0 +1,128 @@
+[
+  {
+    "image": "http://localhost:3001/images/Camera.jpg",
+    "name": "Camera",
+    "price": 15000,
+    "discountedPrice": 14000,
+    "description": "description of Camera.",
+    "rating": 4,
+    "reviewsCount": 250
+  },
+  {
+    "image": "http://localhost:3001/images/Electric_Kettle.jpg",
+    "name": "Electric Kettle",
+    "price": 3200,
+    "discountedPrice": 0,
+    "description": "description of Electric Kettle",
+    "rating": 5,
+    "reviewsCount": 400
+  },
+  {
+    "image": "http://localhost:3001/images/Headphone.jpg",
+    "name": "Headphone",
+    "price": 10000,
+    "discountedPrice": 8000,
+    "description": "description of Headphone.",
+    "rating": 3,
+    "reviewsCount": 420
+  },
+  {
+    "image": "http://localhost:3001/images/SmartPhone.png",
+    "name": "Smart Phone",
+    "price": 60000,
+    "discountedPrice": 55000,
+    "description": "description of Smart Phone.",
+    "rating": 4,
+    "reviewsCount": 200
+  },
+  {
+    "image": "http://localhost:3001/images/Monitor.png",
+    "name": "Monitor",
+    "price": 20000,
+    "discountedPrice": 15000,
+    "description": "description of Monitor.",
+    "rating": 5,
+    "reviewsCount": 2576
+  },
+  {
+    "image": "http://localhost:3001/images/Watch.jpg",
+    "name": "Watch",
+    "price": 4500,
+    "discountedPrice": 4000,
+    "description": "description of Watch.",
+    "rating": 5,
+    "reviewsCount": 751
+  },
+  {
+    "image": "http://localhost:3001/images/Table_Fan.jpg",
+    "name": "Table Fan",
+    "price": 6200,
+    "discountedPrice": 5200,
+    "description": "description of Table Fan.",
+    "rating": 3,
+    "reviewsCount": 244
+  },
+  {
+    "image": "http://localhost:3001/images/Bulb.png",
+    "name": "Bulb",
+    "price": 1200,
+    "discountedPrice": 1000,
+    "description": "description of Bulb.",
+    "rating": 5,
+    "reviewsCount": 800
+  },
+  {
+    "image": "http://localhost:3001/images/Gas_cooker.png",
+    "name": "Gas Cooker",
+    "price": 3000,
+    "discountedPrice": 2500,
+    "description": "description of Gas Cooker.",
+    "rating": 5,
+    "reviewsCount": 350
+  },
+  {
+    "image": "http://localhost:3001/images/Mouse.png",
+    "name": "Mouse",
+    "price": 1200,
+    "discountedPrice": 1000,
+    "description": "description of Mouse.",
+    "rating": 5,
+    "reviewsCount": 284
+  },
+  {
+    "image": "http://localhost:3001/images/Subwooper.png",
+    "name": "Subwoofer",
+    "price": 6000,
+    "discountedPrice": 5000,
+    "description": "description of Subwoofer.",
+    "rating": 5,
+    "reviewsCount": 285
+  },
+  {
+    "image": "http://localhost:3001/images/JBL_Handsfree.png",
+    "name": "JBL Handsfree",
+    "price": 1200,
+    "discountedPrice": 1000,
+    "description": "description of JBL Handsfree.",
+    "rating": 5,
+    "reviewsCount": 350
+  },
+  {
+    "image": "http://localhost:3001/images/Router.png",
+    "name": "Router",
+    "price": 4500,
+    "discountedPrice": 0,
+    "description": "description of Router.",
+    "rating": 4,
+    "reviewsCount": 420
+  },
+  {
+    "image": "http://localhost:3001/images/Hot_Plate.png",
+    "name": "Hot Plate",
+    "price": 5000,
+    "discountedPrice": 4200,
+    "description": "description of Hot Plate.",
+    "rating": 5,
+    "reviewsCount": 388
+  }
+]
