@@ -1,58 +1,47 @@
 import { Injectable } from '@nestjs/common';
-import { readFileSync } from 'fs';
-import { join } from 'path';
-
-interface Product {
-  image: string;
-  name: string;
-  price: number;
-  discountedPrice: number;
-  description: string;
-  rating: number;
-  reviewsCount: number;
-}
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Product } from './product.entity';
 
 @Injectable()
 export class ProductsService {
-  private products: Product[];
+  constructor(
+    @InjectRepository(Product)
+    private productsRepository: Repository<Product>,
+  ) {}
 
-  constructor() {
-    const filePath = join(process.cwd(), 'resources', 'products.json');
-    try {
-      const fileContents = readFileSync(filePath, 'utf-8');
-      this.products = JSON.parse(fileContents);
-    } catch (error) {
-      console.error('Error reading the products.json file:', error);
-      this.products = [];
-    }
-  }
-
-  findAll(section: string, page: number, size: number): Product[] {
-    let filteredProducts = this.products;
+  async findAll(
+    section: string,
+    page: number,
+    size: number,
+  ): Promise<Product[]> {
+    let query = this.productsRepository.createQueryBuilder('product');
 
     switch (section) {
-      case 'featured':
-        break;
-
       case 'best-selling':
-        filteredProducts = filteredProducts.filter(
-          (product) => product.reviewsCount > 300,
-        );
+        query = query.where('product.reviewsCount > :reviewsCount', {
+          reviewsCount: 300,
+        });
         break;
 
       case 'deals':
-        filteredProducts = filteredProducts.filter(
-          (product) => product.discountedPrice > 0,
-        );
+        query = query.where('product.discountedPrice > :discountedPrice', {
+          discountedPrice: 0,
+        });
         break;
 
       default:
         break;
     }
 
-    const startIndex = page * size;
-    const endIndex = startIndex + size;
+    query = query.skip(page * size).take(size);
 
-    return filteredProducts.slice(startIndex, endIndex);
+    try {
+      const products = await query.getMany();
+      return products;
+    } catch (error) {
+      console.error('Error fetching products from the database:', error);
+      return [];
+    }
   }
 }
