@@ -23,13 +23,11 @@ export class ProductsService {
           reviewsCount: 300,
         });
         break;
-
       case 'deals':
         query = query.where('product.discountedPrice > :discountedPrice', {
           discountedPrice: 0,
         });
         break;
-
       default:
         break;
     }
@@ -37,11 +35,30 @@ export class ProductsService {
     query = query.skip(page * size).take(size);
 
     try {
-      const products = await query.getMany();
-      return products;
+      return await query.getMany();
     } catch (error) {
       console.error('Error fetching products from the database:', error);
       return [];
     }
+  }
+
+  async create(productData: Partial<Product>): Promise<Product> {
+    const product = this.productsRepository.create(productData);
+    return await this.productsRepository.save(product);
+  }
+
+  async update(id: number, productData: Partial<Product>): Promise<Product> {
+    await this.productsRepository.update(id, productData);
+    const updatedProduct = await this.productsRepository.findOne({
+      where: { id },
+    });
+    if (!updatedProduct) {
+      throw new Error('Product not found');
+    }
+    return updatedProduct;
+  }
+
+  async remove(id: number): Promise<void> {
+    await this.productsRepository.delete(id);
   }
 }

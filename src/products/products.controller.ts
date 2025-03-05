@@ -1,6 +1,15 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Body,
+  Param,
+  Query,
+} from '@nestjs/common';
 import { ProductsService } from './products.service';
-import { Product } from './product.entity'; // Import the entity instead of defining the interface
+import { Product } from './product.entity';
 
 @Controller('products')
 export class ProductsController {
@@ -13,5 +22,23 @@ export class ProductsController {
     @Query('limit') limit: number = 4,
   ): Promise<Product[]> {
     return this.productsService.findAll(section, page, limit);
+  }
+
+  @Post()
+  async create(@Body() productData: Partial<Product>): Promise<Product> {
+    return this.productsService.create(productData);
+  }
+
+  @Put(':id')
+  async update(
+    @Param('id') id: number,
+    @Body() productData: Partial<Product>,
+  ): Promise<Product> {
+    return this.productsService.update(id, productData);
+  }
+
+  @Delete(':id')
+  async remove(@Param('id') id: number): Promise<void> {
+    return this.productsService.remove(id);
   }
 }
