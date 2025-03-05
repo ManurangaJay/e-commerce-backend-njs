@@ -6,7 +6,10 @@ import * as serveStatic from 'serve-static';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.use(serveStatic(path.join(__dirname, '..', 'public')));
+  app.use(
+    '/images',
+    serveStatic(path.join(__dirname, '..', 'public', 'images')),
+  );
 
   app.enableCors({
     origin: 'http://localhost:3000',
