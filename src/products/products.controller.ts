@@ -18,21 +18,24 @@ export class ProductsController {
   @Get()
   async findAll(
     @Query('section') section: string,
+    @Query('category') category: number,
     @Query('page') page: number = 0,
     @Query('limit') limit: number = 4,
   ): Promise<Product[]> {
-    return this.productsService.findAll(section, page, limit);
+    return this.productsService.findAll(section, category, page, limit);
   }
 
   @Post()
-  async create(@Body() productData: Partial<Product>): Promise<Product> {
+  async create(
+    @Body() productData: { categoryId: number } & Partial<Product>,
+  ): Promise<Product> {
     return this.productsService.create(productData);
   }
 
   @Put(':id')
   async update(
     @Param('id') id: number,
-    @Body() productData: Partial<Product>,
+    @Body() productData: { categoryId?: number } & Partial<Product>,
   ): Promise<Product> {
     return this.productsService.update(id, productData);
   }

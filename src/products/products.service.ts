@@ -2,16 +2,21 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Product } from './product.entity';
+import { Category } from 'src/category/category.entity';
 
 @Injectable()
 export class ProductsService {
   constructor(
     @InjectRepository(Product)
     private productsRepository: Repository<Product>,
+
+    @InjectRepository(Category)
+    private categoryRepository: Repository<Category>,
   ) {}
 
   async findAll(
     section: string,
+    category: number,
     page: number,
     size: number,
   ): Promise<Product[]> {
@@ -32,6 +37,14 @@ export class ProductsService {
         break;
     }
 
+    if (category) {
+      query = query.andWhere('product.categoryId = :categoryId', {
+        categoryId: category,
+      });
+    }
+
+    query = query.leftJoinAndSelect('product.category', 'category');
+
     query = query.skip(page * size).take(size);
 
     try {
@@ -42,20 +55,51 @@ export class ProductsService {
     }
   }
 
-  async create(productData: Partial<Product>): Promise<Product> {
-    const product = this.productsRepository.create(productData);
+  async create(
+    productData: { categoryId: number } & Partial<Product>,
+  ): Promise<Product> {
+    const { categoryId, ...data } = productData;
+
+    const category = await this.categoryRepository.findOne({
+      where: { id: categoryId },
+    });
+
+    if (!category) {
+      throw new Error('Category not found');
+    }
+
+    const product = this.productsRepository.create({ ...data, category });
     return await this.productsRepository.save(product);
   }
 
-  async update(id: number, productData: Partial<Product>): Promise<Product> {
-    await this.productsRepository.update(id, productData);
-    const updatedProduct = await this.productsRepository.findOne({
+  async update(
+    id: number,
+    productData: { categoryId?: number } & Partial<Product>,
+  ): Promise<Product> {
+    const { categoryId, ...data } = productData;
+
+    const product = await this.productsRepository.findOne({
       where: { id },
     });
-    if (!updatedProduct) {
+
+    if (!product) {
       throw new Error('Product not found');
     }
-    return updatedProduct;
+
+    if (categoryId) {
+      const category = await this.categoryRepository.findOne({
+        where: { id: categoryId },
+      });
+
+      if (!category) {
+        throw new Error('Category not found');
+      }
+
+      product.category = category;
+    }
+
+    Object.assign(product, data);
+    return this.productsRepository.save(product);
   }
 
   async remove(id: number): Promise<void> {

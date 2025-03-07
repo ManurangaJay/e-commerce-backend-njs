@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Category } from 'src/category/category.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 
 @Entity('products')
 export class Product {
@@ -11,10 +18,10 @@ export class Product {
   @Column('text')
   name: string;
 
-  @Column('int')
+  @Column('numeric', { precision: 10, scale: 2 })
   price: number;
 
-  @Column('int')
+  @Column('numeric', { precision: 10, scale: 2 })
   discountedPrice: number;
 
   @Column('text')
@@ -25,4 +32,8 @@ export class Product {
 
   @Column('int')
   reviewsCount: number;
+
+  @ManyToOne(() => Category, (category) => category.products)
+  @JoinColumn({ name: 'categoryId' })
+  category: Category;
 }
