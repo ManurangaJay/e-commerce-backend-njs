@@ -15,9 +15,8 @@ export class CategoryController {
 
   @Get()
   async findAll(@Query('id') id?: string) {
-    // Convert id to number if it exists
     const idAsNumber = id ? Number(id) : undefined;
-    return this.categoryService.find(idAsNumber); // Pass the converted number or undefined
+    return this.categoryService.find(idAsNumber);
   }
 
   @Post()
@@ -27,6 +26,6 @@ export class CategoryController {
 
   @Delete(':id')
   delete(@Param('id') id: string) {
-    return this.categoryService.delete(Number(id)); // Convert id to number before deleting
+    return this.categoryService.delete(Number(id));
   }
 }
