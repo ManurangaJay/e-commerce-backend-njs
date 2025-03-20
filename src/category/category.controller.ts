@@ -6,6 +6,7 @@ import {
   Param,
   Body,
   Query,
+  Put,
 } from '@nestjs/common';
 import { CategoryService } from './category.service';
 
@@ -27,5 +28,11 @@ export class CategoryController {
   @Delete(':id')
   delete(@Param('id') id: string) {
     return this.categoryService.delete(Number(id));
+  }
+
+  @Put(':id')
+  async update(@Param('id') id: string, @Body('name') name: string) {
+    const updatedCategory = await this.categoryService.update(Number(id), name);
+    return updatedCategory;
   }
 }

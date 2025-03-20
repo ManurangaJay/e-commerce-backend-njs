@@ -26,4 +26,13 @@ export class CategoryService {
   async delete(id: number): Promise<void> {
     await this.categoryRepository.delete(id);
   }
+
+  async update(id: number, name: string): Promise<Category> {
+    const category = await this.categoryRepository.findOne({ where: { id } });
+    if (!category) {
+      throw new Error('Category not found');
+    }
+    category.name = name;
+    return this.categoryRepository.save(category);
+  }
 }
